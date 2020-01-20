@@ -1,0 +1,183 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &9100032370246645722
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 9100032370246645720}
+  - component: {fileID: 9100032370246645721}
+  m_Layer: 0
+  m_Name: Player 1 Stat
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &9100032370246645720
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9100032370246645722}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 9100032371741615030}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &9100032370246645721
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9100032370246645722}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3414161b744bfc743b2d779700cd9271, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  charName: Zeri
+  level: 1
+  currentExp: 0
+  maxLevel: 100
+  exptToLevelUp: 
+  baseExp: 30
+  baseHP: 35
+  baseEne: 5
+  baseAtt: 5
+  baseDef: 8
+  maxHP: 35
+  currentHP: 35
+  maxEne: 5
+  currentEne: 5
+  attack: 5
+  defense: 8
+  spAttack: 1
+  spDefense: 1
+  wpnName: Arco de madeira
+  wpnPwr: 3
+  armName: Vestimenta de pano
+  armPwr: 4
+  charImage: {fileID: 8019677850098222680, guid: ac5ab3eee65792d438a6a43eee7c4c29,
+    type: 3}
+--- !u!1 &9100032370690842327
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 9100032370690842326}
+  - component: {fileID: 9100032370690842325}
+  m_Layer: 0
+  m_Name: Player 2 Stat
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &9100032370690842326
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9100032370690842327}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 9100032371741615030}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &9100032370690842325
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9100032370690842327}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3414161b744bfc743b2d779700cd9271, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  charName: Wilu
+  level: 1
+  currentExp: 0
+  maxLevel: 100
+  exptToLevelUp: 
+  baseExp: 30
+  baseHP: 50
+  baseEne: 5
+  baseAtt: 3
+  baseDef: 10
+  maxHP: 50
+  currentHP: 50
+  maxEne: 5
+  currentEne: 5
+  attack: 3
+  defense: 10
+  spAttack: 1
+  spDefense: 1
+  wpnName: Espada de ferro
+  wpnPwr: 2
+  armName: Armadura de ferro
+  armPwr: 8
+  charImage: {fileID: 21300000, guid: 813466ed8c331554ab8f491276c3cfd3, type: 3}
+--- !u!1 &9100032371741615024
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 9100032371741615030}
+  - component: {fileID: 9100032371741615031}
+  m_Layer: 0
+  m_Name: Game Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &9100032371741615030
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9100032371741615024}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.1519976, y: -0.19299082, z: -7.4609375}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 9100032370246645720}
+  - {fileID: 9100032370690842326}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &9100032371741615031
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9100032371741615024}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db3b36548580fd244b0fc38389174b14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerStats:
+  - {fileID: 9100032370246645721}
+  - {fileID: 9100032370690842325}
