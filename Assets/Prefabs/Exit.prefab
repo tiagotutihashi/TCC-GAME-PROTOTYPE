@@ -25,7 +25,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 540694618}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.4500003, y: -0.105, z: -1.1936847}
+  m_LocalPosition: {x: -1.43, y: -0.105, z: -1.1936847}
   m_LocalScale: {x: 1, y: 0.5, z: 1}
   m_Children: []
   m_Father: {fileID: 8138744844992341447}
@@ -115,7 +115,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2df5800573678f4ba3ef9a0a794643b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  areaToLoad: Grass-1
-  areaTransitionName: Grass-2
+  areaToLoad: Grass-2
+  areaTransitionName: Grass-1
   theEnt: {fileID: 540694619}
   waitToLoad: 0.3

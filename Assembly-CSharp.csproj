@@ -68,13 +68,21 @@
     <Compile Include="Assets\Scripts\DialogActivator.cs" />
     <Compile Include="Assets\Scripts\DialogManager.cs" />
     <Compile Include="Assets\Scripts\Entrance.cs" />
+    <Compile Include="Assets\Scripts\EquipItem.cs" />
+    <Compile Include="Assets\Scripts\EquipManager.cs" />
     <Compile Include="Assets\Scripts\EssentialsLoader.cs" />
     <Compile Include="Assets\Scripts\Exit.cs" />
     <Compile Include="Assets\Scripts\GameManager.cs" />
     <Compile Include="Assets\Scripts\GameMenu.cs" />
+    <Compile Include="Assets\Scripts\Item.cs" />
+    <Compile Include="Assets\Scripts\ItemManager.cs" />
     <Compile Include="Assets\Scripts\PlayerController.cs" />
     <Compile Include="Assets\Scripts\PlayerLoader.cs" />
+    <Compile Include="Assets\Scripts\TerminalManager.cs" />
     <Compile Include="Assets\Scripts\UIFade.cs" />
+    <Compile Include="Assets\Scripts\UseEquipItem.cs" />
+    <Compile Include="Assets\Scripts\UseItem.cs" />
+    <Compile Include="Assets\Scripts\UseItemToUse.cs" />
     <Reference Include="Unity.Timeline.Editor">
       <HintPath>C:/Users/tiago/Documents/TCC-Final/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
     </Reference>

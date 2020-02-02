@@ -17,6 +17,16 @@ public class GameMenu : MonoBehaviour {
     public Image[] charImage;
     public GameObject[] charStatHolder;
 
+    public Button[] btnOpenStatus, btnCloseStatus;
+    public Button[] btnOpenItems, btnCloseItems;
+
+    [Header("Status Menu")]
+    public Text stsHP, stsEne, stsLvl, stsExp, 
+        stsAtt, stsDef, stsSPAtt, stsSPDef, 
+        stsWpn, stsArm;
+
+    public ScrollRect[] itensWin;
+
     void Start() {
         
     }
@@ -35,6 +45,8 @@ public class GameMenu : MonoBehaviour {
 
     public void UpdateMainStats() {
 
+        TerminalManager.instance.ShowInTerminal("GameMenu.UpdateMainStats()");
+
         playerStats = GameManager.instance.playerStats;
 
         for (int i = 0; i < playerStats.Length; i++) {
@@ -45,15 +57,18 @@ public class GameMenu : MonoBehaviour {
 
                 nameText[i].text = playerStats[i].charName;
                 hpText[i].text = "HP: " + playerStats[i].currentHP + "/" + playerStats[i].maxHP;
+                hpSlider[i].maxValue = playerStats[i].maxHP; ;
+                hpSlider[i].value = playerStats[i].currentHP;
                 eneText[i].text = "Energia: " + playerStats[i].currentEne + "/" + playerStats[i].maxEne;
+                eneSlider[i].maxValue = playerStats[i].maxEne;
+                eneSlider[i].value = playerStats[i].currentEne;
                 lvlText[i].text = "Level: " + playerStats[i].level;
                 //expText[i].text = "Experiência: " + playerStats[i].currentExp;
                 expSlider[i].maxValue = playerStats[i].exptToLevelUp[playerStats[i].level];
                 expSlider[i].value = playerStats[i].currentExp;
                 charImage[i].sprite = playerStats[i].charImage;
-                wpnText[i].text = "Arma: " + playerStats[i].wpnName;
-                armText[i].text = "Armadura: " + playerStats[i].armName;
-
+                wpnText[i].text = "Arma: " + playerStats[i].weapon.itemName;
+                armText[i].text = "Armadura: " + playerStats[i].armor.itemName;
             } else {
                 charStatHolder[i].SetActive(false);
             }
@@ -63,6 +78,8 @@ public class GameMenu : MonoBehaviour {
     }
 
     public void CloseMenu() {
+
+        TerminalManager.instance.ShowInTerminal("GameMenu.CloseMenu()");
 
         for (int i = 0; i < windows.Length; i++) {
 
@@ -78,17 +95,23 @@ public class GameMenu : MonoBehaviour {
 
     public void OpenMenu() {
 
+        TerminalManager.instance.ShowInTerminal("GameMenu.OpenMenu()");
+
         windows[0].SetActive(true);
 
         menu.SetActive(true);
 
         GameManager.instance.gameMenuOpen = true;
 
-        UpdateMainStats();
+        ToggleWindow(0);
 
     }
 
     public void ToggleWindow(int winNumber) {
+
+        TerminalManager.instance.ShowInTerminal("GameMenu.ToggleWindow("+ winNumber + ")");
+
+        UpdateMainStats();
 
         for(int i = 0; i < windows.Length; i++) {
 
@@ -99,6 +122,78 @@ public class GameMenu : MonoBehaviour {
                 windows[i].SetActive(false);
                 btnClose[i].gameObject.SetActive(true);
                 btnOpen[i].gameObject.SetActive(false);
+            }
+
+        }
+
+    }
+
+    public void StatusMenu(int charNumber) {
+
+        TerminalManager.instance.ShowInTerminal("GameMenu.StatusMenu(" + charNumber + ")");
+
+        UpdateMainStats();
+
+        for(int i = 0; i < btnOpenStatus.Length; i++) {
+
+            if (i == charNumber) {
+
+                btnOpenStatus[i].gameObject.SetActive(true);
+
+                string name = "";
+
+                foreach (char c in playerStats[i].charName) {
+                    name += c + "\n";
+                }
+                btnOpenStatus[i].gameObject.GetComponentInChildren<Text>().text = name;
+                UpdateCharStatus(playerStats[i]);
+            } else {
+                btnCloseStatus[i].gameObject.SetActive(true);
+                string name = "";
+
+                foreach (char c in playerStats[i].charName) {
+                    name += c + "\n";
+                }
+                btnCloseStatus[i].gameObject.GetComponentInChildren<Text>().text = name;
+                btnOpenStatus[i].gameObject.SetActive(false);
+            }
+
+        }
+
+    }
+
+    private void UpdateCharStatus(CharacterStats status) {
+
+        TerminalManager.instance.ShowInTerminal("MenuManager.UpdateCharStatus("+ status.charName +")");
+
+        stsLvl.text = status.level.ToString();
+        stsExp.text = status.currentExp.ToString() + "/" + status.exptToLevelUp[status.level];
+        stsHP.text = status.currentHP.ToString() + "/" + status.maxHP;
+        stsEne.text = status.currentEne.ToString() + "/" + status.maxEne;
+        stsAtt.text = (status.attack + status.weapon.att).ToString();
+        stsSPAtt.text = status.spAttack.ToString();
+        stsDef.text = (status.defense + status.armor.def).ToString();
+        stsSPDef.text = status.spDefense.ToString();
+        stsWpn.text = status.weapon.itemName + " - " + status.weapon.att;
+        stsArm.text = status.armor.itemName + " - " + status.armor.def;
+
+    }
+
+    public void ItemMenu(int itemNumber) {
+
+        TerminalManager.instance.ShowInTerminal("MenuManager.ItemMenu(" + itemNumber + ")");
+
+        for (int i = 0; i < btnOpenItems.Length; i++) {
+
+            if (i == itemNumber) {
+
+                btnOpenItems[i].gameObject.SetActive(true);
+                itensWin[i].gameObject.SetActive(true);
+
+            } else {
+                btnCloseItems[i].gameObject.SetActive(true);
+                btnOpenItems[i].gameObject.SetActive(false);
+                itensWin[i].gameObject.SetActive(false);
             }
 
         }

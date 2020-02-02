@@ -9,23 +9,25 @@ public class EssentialsLoader : MonoBehaviour {
     public GameObject gameMan;
 
     void Start() {
-        
-        if(UIFade.instance == null) {
-            UIFade.instance =  Instantiate(UIScreen).GetComponent<UIFade>();
-        }
 
-        if(PlayerController.instance == null) {
-            PlayerController.instance = Instantiate(player).GetComponent<PlayerController>();
-        }
-
-        if(GameManager.instance == null) {
-            Instantiate(gameMan);
-        }
+        LoadGameObjectInScene();
 
     }
 
-    void Update() {
-        
+    public void LoadGameObjectInScene() {
+
+        if (UIFade.instance == null) {
+            UIFade.instance = Instantiate(UIScreen).GetComponent<UIFade>();
+        }
+
+        if (PlayerController.instance == null) {
+            PlayerController.instance = Instantiate(player).GetComponent<PlayerController>();
+        }
+
+        if (GameManager.instance == null) {
+            Instantiate(gameMan);
+        }
+
     }
 
 }

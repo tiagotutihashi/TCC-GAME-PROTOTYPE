@@ -19,8 +19,10 @@ public class Exit : MonoBehaviour {
 
     void Update() {
         if (shouldLoadAfterFade) {
+
             waitToLoad -= Time.deltaTime;
             if(waitToLoad <= 0){
+                TerminalManager.instance.ShowInTerminal("Exit.LoadNextScene(" + areaToLoad + ")");
                 shouldLoadAfterFade = false;
                 SceneManager.LoadScene(areaToLoad);
             }
@@ -28,6 +30,8 @@ public class Exit : MonoBehaviour {
     }
 
     private void OnTriggerEnter2D(Collider2D obj) {
+
+        TerminalManager.instance.ShowInTerminal("Exit.OnTriggerEnter2D("+ obj +")");
 
         if(obj.tag == "Player") {
    

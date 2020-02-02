@@ -4169,18 +4169,6 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
---- !u!114 &1953396018 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 540694619, guid: 4c500f8131e86a2478c8bb37637e98d4,
-    type: 3}
-  m_PrefabInstance: {fileID: 8138744845144983719}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b1daba7f176e36e47b8b1856f20525c3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &2090213232
 GameObject:
   m_ObjectHideFlags: 0
@@ -4307,34 +4295,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 540694619, guid: 4c500f8131e86a2478c8bb37637e98d4, type: 3}
-      propertyPath: transitionName
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 540694620, guid: 4c500f8131e86a2478c8bb37637e98d4, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -1.43
-      objectReference: {fileID: 0}
-    - target: {fileID: 8138744844992341445, guid: 4c500f8131e86a2478c8bb37637e98d4,
-        type: 3}
-      propertyPath: areaTransitionName
-      value: Grass-1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8138744844992341445, guid: 4c500f8131e86a2478c8bb37637e98d4,
-        type: 3}
-      propertyPath: areaToLoad
-      value: Grass-2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8138744844992341445, guid: 4c500f8131e86a2478c8bb37637e98d4,
-        type: 3}
-      propertyPath: theEnt
-      value: 
-      objectReference: {fileID: 1953396018}
-    - target: {fileID: 8138744844992341445, guid: 4c500f8131e86a2478c8bb37637e98d4,
-        type: 3}
-      propertyPath: waitToLoad
-      value: 0.3
-      objectReference: {fileID: 0}
     - target: {fileID: 8138744844992341447, guid: 4c500f8131e86a2478c8bb37637e98d4,
         type: 3}
       propertyPath: m_LocalPosition.x

@@ -13,6 +13,8 @@ public class PlayerController : MonoBehaviour {
     public string areaTransitionName;
     public bool canMove = true;
 
+    private bool stop;
+
     private Vector3 bottomLeftLimit;
     private Vector3 topRightLimit;
 
@@ -35,17 +37,25 @@ public class PlayerController : MonoBehaviour {
     void Update() {
 
         if (canMove) {
-            movement();
+            Movement();
         } else {
             rigid.velocity = Vector2.zero;
         }
         
     }
 
-    private void movement() {
+    private void Movement() {
 
         x = Input.GetAxisRaw("Horizontal");
         y = Input.GetAxisRaw("Vertical");
+
+        if(x != 0 || y!= 0) {
+            if(stop)
+                TerminalManager.instance.ShowInTerminal("PlayerController.Movement()");
+            stop = false;
+        } else {
+            stop = true;
+        }
 
         rigid.velocity = new Vector2(x, y) * speed;
 
@@ -63,8 +73,10 @@ public class PlayerController : MonoBehaviour {
 
     public void SetBounds(Vector3 botLeft, Vector3 topRight) {
 
+        TerminalManager.instance.ShowInTerminal("PlayerController.SetBounds(("+ botLeft.x +", "+ botLeft.y + ", " + botLeft.z +") ("+ topRight.x + ", " + topRight.y + ", " + topRight.z + "))");
+
         bottomLeftLimit = botLeft + new Vector3(0.5f, 0.5f, 0f);
-        topRightLimit = topRight + new Vector3(-0.5f, 0.5f, 0f);
+        topRightLimit = topRight + new Vector3(-0.5f, -0.5f, 0f);
 
     }
 

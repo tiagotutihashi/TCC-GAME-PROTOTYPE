@@ -26,10 +26,13 @@ public class CharacterStats : MonoBehaviour {
     public int spAttack;
     public int spDefense;
 
-    public string wpnName;
+    /*public string wpnName;
     public int wpnPwr;
     public string armName;
-    public int armPwr;
+    public int armPwr;*/
+
+    public EquipItem weapon;
+    public EquipItem armor;
 
     public Sprite charImage;
 
@@ -57,6 +60,8 @@ public class CharacterStats : MonoBehaviour {
 
     public void AddExp(int exp) {
 
+        TerminalManager.instance.ShowInTerminal("CharacterStats.AddExp("+ exp +")");
+
         currentExp += exp;
 
         if (level < maxLevel) {
@@ -72,6 +77,8 @@ public class CharacterStats : MonoBehaviour {
     }
 
     private void LevelUp() {
+
+        TerminalManager.instance.ShowInTerminal("CharacterStats.LevelUp()");
 
         currentExp -= exptToLevelUp[level];
         level++;

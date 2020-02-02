@@ -56,6 +56,8 @@ public class DialogManager : MonoBehaviour {
 
     public void ShowDialog(string[] newLines, bool isPerson) {
 
+        TerminalManager.instance.ShowInTerminal("DialogManager.ShowDialog("+newLines+", "+isPerson+")");
+
         dialogLines = newLines;
 
         currentLine = 0;
@@ -75,6 +77,8 @@ public class DialogManager : MonoBehaviour {
     }
 
     public void CheckIfName() {
+
+        TerminalManager.instance.ShowInTerminal("DialogManager.CheckIfName()");
 
         if (dialogLines[currentLine].StartsWith("n-")) {
 
