@@ -15,6 +15,9 @@ public class Exit : MonoBehaviour {
 
     void Start() {
         theEnt.transitionName = areaTransitionName;
+
+        TerminalManager.instance.ShowInTerminalObject(areaToLoad + " - Exit");
+
     }
 
     void Update() {

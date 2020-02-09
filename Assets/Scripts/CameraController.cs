@@ -16,13 +16,15 @@ public class CameraController : MonoBehaviour {
 
     void Start() {
 
+        TerminalManager.instance.ShowInTerminalObject("CameraControler - CameraControler");
+
         //target = PlayerController.instance.transform;
         target = FindObjectOfType<PlayerController>().transform;
 
         halfHeight = Camera.main.orthographicSize;
         halfWidth = halfHeight * Camera.main.aspect;
 
-        bottomLeftLimit = map.localBounds.min + new Vector3(halfWidth, halfHeight, 0f);
+        bottomLeftLimit = map.localBounds.min + new Vector3(halfWidth, halfHeight - 2.3f, 0f);
         topRightLimit = map.localBounds.max + new Vector3(-halfWidth, -halfHeight, 0f);
 
         FindObjectOfType<PlayerController>().SetBounds(map.localBounds.min, map.localBounds.max);

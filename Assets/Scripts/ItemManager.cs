@@ -17,6 +17,8 @@ public class ItemManager : MonoBehaviour {
 
         instance = this;
 
+        TerminalManager.instance.ShowInTerminalObject("ItemManager - ItemManager");
+
     }
 
     public void LoadItems() {

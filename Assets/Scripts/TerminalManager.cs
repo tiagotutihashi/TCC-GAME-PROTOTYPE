@@ -8,10 +8,19 @@ public class TerminalManager : MonoBehaviour {
     public static TerminalManager instance;
 
     public Text line;
+    public Text obj;
 
     void Start() {
 
         instance = this;
+
+        ShowInTerminalObject("TerminalManager - TerminalManager");
+
+    }
+
+    public void ShowInTerminalObject(string newObj) {
+
+        obj.text = obj.text.Insert(0, newObj + "\n");
 
     }
 

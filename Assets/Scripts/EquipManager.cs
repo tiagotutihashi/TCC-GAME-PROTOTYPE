@@ -17,6 +17,8 @@ public class EquipManager : MonoBehaviour {
 
         instance = this;
 
+        TerminalManager.instance.ShowInTerminalObject("TerminalManger - TerminalManager");
+
     }
 
     public void LoadEquip() {

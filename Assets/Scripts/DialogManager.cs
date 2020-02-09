@@ -22,6 +22,8 @@ public class DialogManager : MonoBehaviour {
 
         dialogText.text = dialogLines[currentLine];
 
+
+
     }
 
     void Update() {
