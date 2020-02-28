@@ -1,0 +1,67 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4661701557107007435
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4661701557107007433}
+  - component: {fileID: 4661701557107007432}
+  m_Layer: 0
+  m_Name: Player 1 Stat
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4661701557107007433
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4661701557107007435}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4661701557107007432
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4661701557107007435}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3414161b744bfc743b2d779700cd9271, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  charName: Zeri
+  level: 1
+  currentExp: 10
+  maxLevel: 100
+  exptToLevelUp: 
+  baseExp: 30
+  baseHP: 35
+  baseEne: 5
+  baseAtt: 5
+  baseDef: 8
+  maxHP: 35
+  currentHP: 20
+  maxEne: 5
+  currentEne: 3
+  attack: 5
+  defense: 8
+  spAttack: 1
+  spDefense: 1
+  weapon: {fileID: -7740358643867359250, guid: 99ebef9e648134b438873cdf3c5b69be, type: 3}
+  armor: {fileID: 1679010541870625739, guid: b0c113830e15dc044b12330fe6326173, type: 3}
+  charImage: {fileID: 8019677850098222680, guid: ac5ab3eee65792d438a6a43eee7c4c29,
+    type: 3}

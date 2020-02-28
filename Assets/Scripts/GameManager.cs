@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour {
     public bool gameMenuOpen;
     public bool dialogActive;
     public bool fadingBetweenAreas;
+    public bool battleActive;
 
     [Header("Use Items")]
     public UseItem[] useItems;
@@ -23,6 +24,8 @@ public class GameManager : MonoBehaviour {
     public EquipItem[] equipItems;
     public List<string> haveEquipItems;
     public List<EquipItem> playerEquipItems = new List<EquipItem>();
+
+    public int money;
 
     void Start() {
 
@@ -36,7 +39,7 @@ public class GameManager : MonoBehaviour {
     
     void Update() {
         
-        if(gameMenuOpen || dialogActive || fadingBetweenAreas) {
+        if(gameMenuOpen || dialogActive || fadingBetweenAreas  || battleActive) {
             PlayerController.instance.canMove = false;
         } else {
             PlayerController.instance.canMove = true;
@@ -149,6 +152,8 @@ public class GameManager : MonoBehaviour {
             PlayerPrefs.SetInt("Player_UseItem_Amount_" + i, amountHaveUseItems[i]);
         }
 
+        PlayerPrefs.SetInt("Player_Money", money);
+
     }
 
     public void LoadGame() {
@@ -200,6 +205,8 @@ public class GameManager : MonoBehaviour {
 
             }
         }
+
+        money = PlayerPrefs.GetInt("Player_Money");
 
     }
 

@@ -1,0 +1,70 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &5163803498230189023
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8720912662747947351}
+  - component: {fileID: 1148810232223249923}
+  m_Layer: 0
+  m_Name: Snake
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8720912662747947351
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5163803498230189023}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.77331394, y: -2.7841527, z: -1.6461046}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1148810232223249923
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5163803498230189023}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3414161b744bfc743b2d779700cd9271, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  charName: Snake
+  level: 5
+  currentExp: 0
+  maxLevel: 100
+  exptToLevelUp: 
+  baseExp: 30
+  baseHP: 20
+  baseEne: 5
+  baseAtt: 15
+  baseDef: 5
+  maxHP: 20
+  currentHP: 20
+  maxEne: 5
+  currentEne: 5
+  attack: 15
+  defense: 5
+  spAttack: 5
+  spDefense: 5
+  weapon: {fileID: 0}
+  armor: {fileID: 0}
+  charImage: {fileID: 3995723015040195041, guid: 31a387a28ddf24d4f968e7ace9590485,
+    type: 3}
+  moveAvailable:
+  - Sword
+  - Bow

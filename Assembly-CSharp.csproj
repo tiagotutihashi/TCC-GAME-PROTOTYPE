@@ -63,6 +63,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\AttackEffect.cs" />
+    <Compile Include="Assets\Scripts\BattleManager.cs" />
+    <Compile Include="Assets\Scripts\BattleMove.cs" />
+    <Compile Include="Assets\Scripts\BattleTargetButton.cs" />
     <Compile Include="Assets\Scripts\CameraController.cs" />
     <Compile Include="Assets\Scripts\CharacterStats.cs" />
     <Compile Include="Assets\Scripts\DialogActivator.cs" />
@@ -76,6 +80,7 @@
     <Compile Include="Assets\Scripts\GameMenu.cs" />
     <Compile Include="Assets\Scripts\Item.cs" />
     <Compile Include="Assets\Scripts\ItemManager.cs" />
+    <Compile Include="Assets\Scripts\ListAttack.cs" />
     <Compile Include="Assets\Scripts\LoadingScene.cs" />
     <Compile Include="Assets\Scripts\MainMenu.cs" />
     <Compile Include="Assets\Scripts\PlayerController.cs" />
