@@ -31,6 +31,18 @@ public class BattleManager : MonoBehaviour {
     public BattleTargetButton[] targetButtons;
     public GameObject PlayerMenu;
     public GameObject ListAttackMenu;
+    public ListAttack listAttacks;
+
+    public bool espaceFail = false;
+    public GameObject painelMessage;
+    public bool showStatus = false;
+
+    public GameObject itemMenu;
+    public ItemList itemList;
+    public BattleItem[] itemButtons;
+
+    public GameObject playerTargetMenu;
+    public PlayerTarget[] playerTargets;
 
     void Start() {
 
@@ -53,10 +65,15 @@ public class BattleManager : MonoBehaviour {
                     PlayerMenu.SetActive(false);
                     StartCoroutine(EnemyMoveCo());
                 } else {
-                    PlayerMenu.SetActive(true);
-                    //Player Attack
+                    if (espaceFail) {
+                        PlayerMenu.SetActive(false);
+                        StartCoroutine(FailMessage());
+                    } else {
+                        PlayerMenu.SetActive(true);
+                    }
                 }
             }
+
         }
 
 
@@ -79,18 +96,22 @@ public class BattleManager : MonoBehaviour {
 
         }
 
-        for (int i = 0; i < enemyPosition.Length; i++) {
+        if (showStatus) {
 
-            CharacterStats playChar = enemyPosition[i];
+            for (int i = 0; i < enemyPosition.Length; i++) {
 
-            eneName[i].text = playChar.charName;
-            eneLevel[i].text = playChar.level.ToString();
-            enehp[i].text = playChar.currentHP.ToString() + "/" + playChar.maxHP.ToString();
-            eneEne[i].text = playChar.currentEne.ToString() + "/" + playChar.maxEne.ToString();
-            eneSliderHp[i].maxValue = playChar.maxHP;
-            eneSliderHp[i].value = playChar.currentHP;
-            eneSliderEne[i].maxValue = playChar.maxEne;
-            eneSliderEne[i].value = playChar.currentEne;
+                CharacterStats playChar = enemyPosition[i];
+
+                eneName[i].text = playChar.charName;
+                eneLevel[i].text = playChar.level.ToString();
+                enehp[i].text = playChar.currentHP.ToString() + "/" + playChar.maxHP.ToString();
+                eneEne[i].text = playChar.currentEne.ToString() + "/" + playChar.maxEne.ToString();
+                eneSliderHp[i].maxValue = playChar.maxHP;
+                eneSliderHp[i].value = playChar.currentHP;
+                eneSliderEne[i].maxValue = playChar.maxEne;
+                eneSliderEne[i].value = playChar.currentEne;
+
+            }
 
         }
 
@@ -194,7 +215,7 @@ public class BattleManager : MonoBehaviour {
             if (allEnemiesDead) {
 
             } else {
-
+                Debug.Log("Players is dead");
             }
 
             battleScene.SetActive(false);
@@ -281,19 +302,23 @@ public class BattleManager : MonoBehaviour {
 
     public IEnumerator PlayerAttack(string moveName, int selectTarget) {
         int movePower = 0;
+        int moveCost = 0;
         PlayerMenu.SetActive(false);
         for (int i = 0; i < movesList.Length; i++) {
             if (movesList[i].moveName == moveName) {
                 Instantiate(movesList[i].theEffect, enemyPosition[selectTarget].transform.position, enemyPosition[selectTarget].transform.rotation);
                 movePower = movesList[i].movePower;
-
+                moveCost = movesList[i].moveCost;
                 yield return new WaitForSeconds(movesList[i].theEffect.effectLenght);
             }
         }
 
+        GameManager.instance.playerStats[currentTurn].currentEne -= moveCost;
         DealDamageEnemy(selectTarget, movePower);
         NextTurn();
         targetMenu.SetActive(false);
+        ListAttackMenu.SetActive(false);
+        listAttacks.disableList();
 
     }
 
@@ -311,7 +336,6 @@ public class BattleManager : MonoBehaviour {
             if (enemyPosition[i].currentHP == 0) {
                 targetButtons[i].gameObject.SetActive(false);
             } else {
-
                 targetButtons[i].moveName = moveName;
                 targetButtons[i].target = Enemies[i];
                 targetButtons[i].targetName.text = enemyPosition[i].charName;
@@ -330,14 +354,156 @@ public class BattleManager : MonoBehaviour {
     public void OpenListMenu() {
 
         ListAttackMenu.SetActive(true);
-        ListAttack.instance.movesNames = GameManager.instance.playerStats[currentTurn].moveAvailable;
-        ListAttack.instance.ShowMoves();
+        listAttacks.movesNames = GameManager.instance.playerStats[currentTurn].moveAvailable;
+        listAttacks.energy = GameManager.instance.playerStats[currentTurn].currentEne;
+        listAttacks.ShowMoves();
+        listAttacks.CreateBack();
 
     }
 
     public void CloseListMenu() {
 
         ListAttackMenu.SetActive(false);
+        targetMenu.SetActive(false);
+
+    }
+
+    public void Escape() {
+
+        PlayerMenu.SetActive(false);
+
+        int levelD = 0;
+        for (int i = 0; i < enemyPosition.Length; i++) {
+            for (int f = 0; f < GameManager.instance.playerStats.Length; f++) {
+                levelD += GameManager.instance.playerStats[f].level - enemyPosition[i].level;
+            }
+        }
+        int attempt = Random.Range(0, 100);
+
+        if (attempt < 20 + levelD * 5) {
+
+            battleActive = false;
+            battleScene.SetActive(false);
+
+        } else {
+            espaceFail = true;
+
+        }
+
+    }
+
+    public IEnumerator FailMessage() {
+
+        NextTurn();
+        UpdateBattle();
+        PlayerMenu.SetActive(false);
+        painelMessage.SetActive(true);
+        painelMessage.GetComponentInChildren<Text>().text = "Não escapou";
+        espaceFail = false;
+        yield return new WaitForSeconds(2f);
+        painelMessage.SetActive(false);
+        PlayerMenu.SetActive(false);
+
+    }
+
+    public void Inspect() {
+
+        showStatus = true;
+        NextTurn();
+        UpdateBattle();
+
+    }
+
+    public void OpenPlayerTargetMenu(UseItem item) {
+
+        playerTargetMenu.SetActive(true);
+
+        List<int> Players = new List<int>();
+
+        for (int i = 0; i < GameManager.instance.playerStats.Length; i++) {
+            Players.Add(i);
+        }
+
+        for (int i = 0; i < playerTargets.Length; i++) {
+            playerTargets[i].GetComponent<Button>().interactable = true;
+            playerTargets[i].item = item;
+            playerTargets[i].target = Players[i];
+            playerTargets[i].targetName.text = GameManager.instance.playerStats[i].charName;
+            bool ac = true;
+            if((item.hp > 0 && GameManager.instance.playerStats[i].currentHP == GameManager.instance.playerStats[i].maxHP)) {
+                playerTargets[i].GetComponent<Button>().interactable = false;
+            }
+            if((item.ene > 0 && GameManager.instance.playerStats[i].currentEne == GameManager.instance.playerStats[i].maxEne)) {
+                playerTargets[i].GetComponent<Button>().interactable = false;
+            }
+
+        }
+
+    }
+    public void ClosePlayerTargetMenu() {
+
+        playerTargetMenu.SetActive(false);
+
+    }
+
+    public void OpenItemMenu() {
+
+        itemMenu.SetActive(true);
+        itemList.ShowMoves();
+        itemList.CreateBack();
+
+    }
+
+    public void CloseItemMenu() {
+
+        itemMenu.SetActive(false);
+        targetMenu.SetActive(false);
+
+    }
+
+    public IEnumerator PlayerUseItem(UseItem item, int selectTarget) {
+        PlayerMenu.SetActive(false);
+
+        CharacterStats charToUse = GameManager.instance.playerStats[selectTarget];
+
+        if (item.hp + charToUse.currentHP >= charToUse.maxHP) {
+            charToUse.currentHP = charToUse.maxHP;
+        } else {
+            charToUse.currentHP += item.hp;
+        }
+
+        if (item.ene + charToUse.currentEne >= charToUse.maxEne) {
+            charToUse.currentEne = charToUse.maxEne;
+        } else {
+            charToUse.currentEne += item.ene;
+        }
+
+        List<UseItem> loaded = GameManager.instance.GetPlayerUseItems();
+
+        for (int i = 0; i < loaded.Count; i++) {
+
+            if (loaded[i].itemName == item.itemName) {
+                GameManager.instance.amountHaveUseItems[i]--;
+                if (GameManager.instance.amountHaveUseItems[i] <= 0) {
+                    loaded.Remove(item);
+                    GameManager.instance.amountHaveUseItems.RemoveAt(i);
+                    GameManager.instance.haveUseItems.RemoveAt(i);
+                }
+                break;
+            }
+
+        }
+
+        itemList.disableList();
+
+        NextTurn();
+        UpdateStatus();
+
+        playerTargetMenu.SetActive(false);
+        itemMenu.SetActive(false);
+        itemList.disableList();
+
+        yield return new WaitForSeconds(0f);
 
     }
 
