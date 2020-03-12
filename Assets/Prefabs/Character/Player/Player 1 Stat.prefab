@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4661701557107007433}
-  - component: {fileID: 4661701557107007432}
+  - component: {fileID: 9034792628073465640}
   m_Layer: 0
   m_Name: Player 1 Stat
   m_TagString: Untagged
@@ -31,7 +31,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4661701557107007432
+--- !u!114 &9034792628073465640
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -40,7 +40,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4661701557107007435}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3414161b744bfc743b2d779700cd9271, type: 3}
+  m_Script: {fileID: 11500000, guid: 9187f2bca951b834ab7c684b1a1e62b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   charName: Zeri
@@ -65,3 +65,6 @@ MonoBehaviour:
   armor: {fileID: 1679010541870625739, guid: b0c113830e15dc044b12330fe6326173, type: 3}
   charImage: {fileID: 8019677850098222680, guid: ac5ab3eee65792d438a6a43eee7c4c29,
     type: 3}
+  moveAvailable:
+  - Sword
+  - Bow

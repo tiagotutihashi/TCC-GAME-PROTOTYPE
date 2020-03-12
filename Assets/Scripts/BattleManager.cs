@@ -2,19 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class BattleManager : MonoBehaviour {
 
     public static BattleManager instace;
 
-    private bool battleActive;
+    public bool battleActive;
 
     public GameObject battleScene;
 
     public GameObject[] playerPosition;
-    public CharacterStats[] enemyPosition;
+    public EnemyStats[] enemyPosition;
 
-    public CharacterStats[] enemies;
+    public EnemyStats[] enemies;
 
     public int currentTurn;
     public bool turnWaiting;
@@ -33,9 +34,7 @@ public class BattleManager : MonoBehaviour {
     public GameObject ListAttackMenu;
     public ListAttack listAttacks;
 
-    public bool espaceFail = false;
     public GameObject painelMessage;
-    public bool showStatus = false;
 
     public GameObject itemMenu;
     public ItemList itemList;
@@ -44,32 +43,66 @@ public class BattleManager : MonoBehaviour {
     public GameObject playerTargetMenu;
     public PlayerTarget[] playerTargets;
 
+    public GameObject[] statusPanel;
+    public GameObject endPanel;
+    public GameObject winPanel;
+
+    public Text[] playersNames;
+    public Slider[] playerExpSlider;
+    public Text[] playerExpText;
+    public Text[] playerLevelUpText;
+    public Text goldText;
+
+    public bool showStatus = false;
+    public bool espaceFail = false;
+    private bool loseTheBattle = false;
+    private bool winTheBattle = false;
+    private bool goToMainMenu = false;
+    private bool updateExp = true;
+    private bool showOnce = true;
+    public string nameEnemy;
+
     void Start() {
 
         instace = this;
         DontDestroyOnLoad(gameObject);
+
+        TerminalManager.instance.ShowInTerminalObject("BattleManger - BattleManager");
 
     }
 
     void Update() {
 
         if (Input.GetKeyDown(KeyCode.P)) {
-            BattleStart(new string[] { "Snake", "Two Legs" });
+            //BattleStart(new string[] { "Snake", "Two Legs" });
             UpdateStatus();
         }
 
         if (battleActive) {
-            if (turnWaiting) {
-                if (currentTurn > 1) {
-                    //Enemy Attack
-                    PlayerMenu.SetActive(false);
-                    StartCoroutine(EnemyMoveCo());
-                } else {
-                    if (espaceFail) {
+            if (loseTheBattle) {
+                if(showOnce)
+                    StartCoroutine(EndBattle());
+                if (goToMainMenu) {
+                    StartCoroutine(GoToMainMenu());
+                }
+            } else if (winTheBattle) {
+                if (updateExp)
+                    UpdateExp();
+                if(showOnce)
+                    StartCoroutine(WinBattle());
+            } else {
+                if (turnWaiting) {
+                    if (currentTurn > 1) {
+                        //Enemy Attack
                         PlayerMenu.SetActive(false);
-                        StartCoroutine(FailMessage());
+                        StartCoroutine(EnemyMoveCo());
                     } else {
-                        PlayerMenu.SetActive(true);
+                        if (espaceFail) {
+                            PlayerMenu.SetActive(false);
+                            StartCoroutine(FailMessage());
+                        } else {
+                            PlayerMenu.SetActive(true);
+                        }
                     }
                 }
             }
@@ -81,9 +114,11 @@ public class BattleManager : MonoBehaviour {
 
     public void UpdateStatus() {
 
+        TerminalManager.instance.ShowInTerminal("BattleManager.UpdateStatus()");
+
         for (int i = 0; i < GameManager.instance.playerStats.Length; i++) {
 
-            CharacterStats playChar = GameManager.instance.playerStats[i];
+            PlayerStats playChar = GameManager.instance.playerStats[i];
 
             playName[i].text = playChar.charName;
             playLevel[i].text = playChar.level.ToString();
@@ -100,7 +135,7 @@ public class BattleManager : MonoBehaviour {
 
             for (int i = 0; i < enemyPosition.Length; i++) {
 
-                CharacterStats playChar = enemyPosition[i];
+                EnemyStats playChar = enemyPosition[i];
 
                 eneName[i].text = playChar.charName;
                 eneLevel[i].text = playChar.level.ToString();
@@ -117,7 +152,26 @@ public class BattleManager : MonoBehaviour {
 
     }
 
-    public void BattleStart(string[] enemeisToBattle) {
+    public void BattleStart(string[] enemeisToBattle, string nameEnemy) {
+
+        TerminalManager.instance.ShowInTerminal("BattleManager.BattleStart([" + enemeisToBattle[0] + ", " + enemeisToBattle[1] + "])");
+
+        this.nameEnemy = nameEnemy;
+
+        endPanel.SetActive(false);
+        winPanel.SetActive(false);
+        showStatus = false;
+        espaceFail = false;
+        loseTheBattle = false;
+        winTheBattle = false;
+        goToMainMenu = false;
+        updateExp = true;
+        currentTurn = 0;
+        showOnce = true;
+
+        for (int i = 0; i < statusPanel.Length; i++) {
+            statusPanel[i].SetActive(true);
+        }
 
         if (!battleActive) {
             battleActive = true;
@@ -138,6 +192,7 @@ public class BattleManager : MonoBehaviour {
 
                     if (enemies[f].charName == enemeisToBattle[i]) {
                         enemyPosition[i].GetComponentInChildren<SpriteRenderer>().sprite = enemies[f].charImage;
+                        enemyPosition[i].currentExp = enemies[f].currentExp;
                         enemyPosition[i].charName = enemies[f].charName;
                         enemyPosition[i].maxHP = enemies[f].maxHP;
                         enemyPosition[i].currentHP = enemies[f].currentHP;
@@ -164,6 +219,8 @@ public class BattleManager : MonoBehaviour {
 
     public void NextTurn() {
 
+        TerminalManager.instance.ShowInTerminal("BattleManager.NextTurn()");
+
         currentTurn++;
         if (currentTurn > 3) {
             currentTurn = 0;
@@ -172,6 +229,8 @@ public class BattleManager : MonoBehaviour {
     }
 
     public void UpdateBattle() {
+
+        TerminalManager.instance.ShowInTerminal("BattleManager.UpdateBattle()");
 
         bool allEnemiesDead = false;
         bool allPlayersDead = false;
@@ -213,14 +272,11 @@ public class BattleManager : MonoBehaviour {
 
         if (allEnemiesDead || allPlayersDead) {
             if (allEnemiesDead) {
-
+                winTheBattle = true;
             } else {
-                Debug.Log("Players is dead");
+                loseTheBattle = true;
             }
 
-            battleScene.SetActive(false);
-            GameManager.instance.battleActive = false;
-            battleActive = false;
         } else {
             for (int i = 0; i < GameManager.instance.playerStats.Length; i++) {
                 if (GameManager.instance.playerStats[i].currentHP == 0 && currentTurn < 2) {
@@ -239,7 +295,136 @@ public class BattleManager : MonoBehaviour {
 
     }
 
+    public IEnumerator WinBattle() {
+
+        showOnce = false;
+        TerminalManager.instance.ShowInTerminal("BattleManager.WinBattle()");
+
+        PlayerMenu.SetActive(false);
+        UIFade.instance.FadeToBlack();
+        yield return new WaitForSeconds(1f);
+        winPanel.SetActive(true);
+
+    }
+
+    public void UpdateExp() {
+
+        TerminalManager.instance.ShowInTerminal("BattleManager.UpdateExp()");
+
+        int[] levelUp = new int[] { 0, 0 };
+
+        for (int i = 0; i < statusPanel.Length; i++) {
+            statusPanel[i].SetActive(false);
+        }
+        int expToGain = 0;
+        int goldToGain = 0;
+        for (int i = 0; i < enemyPosition.Length; i++) {
+            expToGain += enemyPosition[i].expToGive;
+            goldToGain += enemyPosition[i].goldToGive;
+        }
+
+        for (int i = 0; i < GameManager.instance.playerStats.Length; i++) {
+            levelUp[i] = GameManager.instance.playerStats[i].AddExp(expToGain);
+        }
+
+        GameManager.instance.money += goldToGain;
+
+        for (int i = 0; i < playersNames.Length; i++) {
+            playersNames[i].text = GameManager.instance.playerStats[i].charName;
+            playerExpText[i].text = "Exp: " + GameManager.instance.playerStats[i].currentExp + "/" + GameManager.instance.playerStats[i].exptToLevelUp[GameManager.instance.playerStats[i].level];
+            playerExpSlider[i].maxValue = GameManager.instance.playerStats[i].exptToLevelUp[GameManager.instance.playerStats[i].level];
+            playerExpSlider[i].value = GameManager.instance.playerStats[i].currentExp;
+            goldText.text = "Ouro: " + goldToGain;
+            if (levelUp[i] > 0)
+                playerLevelUpText[i].text = "Subiu de nível: +" + levelUp[i].ToString();
+        }
+
+        updateExp = false;
+
+    }
+
+    public void ContinueTheGame() {
+
+        TerminalManager.instance.ShowInTerminal("BattleManager.ContinueTheGame()");
+
+        winPanel.SetActive(false);
+        winTheBattle = false;
+        UIFade.instance.FadeFromBlack();
+        battleActive = false;
+        GameManager.instance.battleActive = false;
+        battleScene.SetActive(false);
+        playerLevelUpText[0].text = "";
+        playerLevelUpText[1].text = "";
+
+    }
+
+    public IEnumerator EndBattle() {
+
+        showOnce = false;
+        TerminalManager.instance.ShowInTerminal("BattleManager.EndBattle()");
+
+        for (int i = 0; i < statusPanel.Length; i++) {
+            statusPanel[i].SetActive(false);
+        }
+        UIFade.instance.FadeToBlack();
+        yield return new WaitForSeconds(1f);
+        endPanel.SetActive(true);
+        
+    }
+
+    public void Continue() {
+
+        TerminalManager.instance.ShowInTerminal("BattleManager.Continue()");
+
+        UIFade.instance.FadeFromBlack();
+        endPanel.SetActive(false);
+        battleScene.SetActive(false);
+        GameManager.instance.battleActive = false;
+        battleActive = false;
+        loseTheBattle = false;
+        for (int i = 0; i < statusPanel.Length; i++) {
+            statusPanel[i].SetActive(true);
+        }
+        GameManager.instance.LoadGame();
+
+    }
+
+    public void MainMenu() {
+
+        TerminalManager.instance.ShowInTerminal("BattleManager.MainMenu()");
+
+        goToMainMenu = true;
+
+    }
+
+    public void ExitGame() {
+
+        TerminalManager.instance.ShowInTerminal("BattleManager.ExitGame()");
+
+        Application.Quit();
+
+    }
+
+    public IEnumerator GoToMainMenu() {
+
+        TerminalManager.instance.ShowInTerminal("BattleManager.GoToMainMenu()");
+
+        UIFade.instance.FadeFromBlack();
+        yield return new WaitForSeconds(.1f);
+        SceneManager.LoadScene("MainMenu");
+        Destroy(GameManager.instance.gameObject);
+        Destroy(PlayerController.instance.gameObject);
+        Destroy(gameObject);
+        Destroy(UIFade.instance.gameObject);
+        battleScene.SetActive(false);
+        GameManager.instance.battleActive = false;
+        battleActive = false;
+
+    }
+
     public IEnumerator EnemyMoveCo() {
+
+        TerminalManager.instance.ShowInTerminal("BattleManager.EnemyMoveCo()");
 
         turnWaiting = false;
         yield return new WaitForSeconds(1f);
@@ -272,6 +457,8 @@ public class BattleManager : MonoBehaviour {
 
     public void DealDamage(int target, int movePower) {
 
+        TerminalManager.instance.ShowInTerminal("BattleManager.DealDamage(" + target + ", " + movePower + ")");
+
         float attPwr = enemyPosition[currentTurn - 2].attack;
         float defPwr = GameManager.instance.playerStats[target].defense;
 
@@ -287,6 +474,8 @@ public class BattleManager : MonoBehaviour {
 
     public void DealDamageEnemy(int target, int movePower) {
 
+        TerminalManager.instance.ShowInTerminal("BattleManager.DealDamageEnemy(" + target + ", " + movePower + ")");
+
         float attPwr = GameManager.instance.playerStats[currentTurn].attack;
         float defPwr = enemyPosition[target].defense;
 
@@ -301,6 +490,9 @@ public class BattleManager : MonoBehaviour {
     }
 
     public IEnumerator PlayerAttack(string moveName, int selectTarget) {
+
+        TerminalManager.instance.ShowInTerminal("BattleManager.PlayerAttack(" + moveName + ", " + selectTarget + ")");
+
         int movePower = 0;
         int moveCost = 0;
         PlayerMenu.SetActive(false);
@@ -324,6 +516,8 @@ public class BattleManager : MonoBehaviour {
 
     public void OpenTargetMenu(string moveName) {
 
+        TerminalManager.instance.ShowInTerminal("BattleManager.OpenTargetMenu(" + moveName + ")");
+
         targetMenu.SetActive(true);
 
         List<int> Enemies = new List<int>();
@@ -336,6 +530,7 @@ public class BattleManager : MonoBehaviour {
             if (enemyPosition[i].currentHP == 0) {
                 targetButtons[i].gameObject.SetActive(false);
             } else {
+                targetButtons[i].gameObject.SetActive(true);
                 targetButtons[i].moveName = moveName;
                 targetButtons[i].target = Enemies[i];
                 targetButtons[i].targetName.text = enemyPosition[i].charName;
@@ -347,11 +542,15 @@ public class BattleManager : MonoBehaviour {
 
     public void CloseTargetMenu() {
 
+        TerminalManager.instance.ShowInTerminal("BattleManager.CloseTargetMenu()");
+
         targetMenu.SetActive(false);
 
     }
 
     public void OpenListMenu() {
+
+        TerminalManager.instance.ShowInTerminal("BattleManager.OpenListMenu()");
 
         ListAttackMenu.SetActive(true);
         listAttacks.movesNames = GameManager.instance.playerStats[currentTurn].moveAvailable;
@@ -363,12 +562,16 @@ public class BattleManager : MonoBehaviour {
 
     public void CloseListMenu() {
 
+        TerminalManager.instance.ShowInTerminal("BattleManager.CloseListMenu()");
+
         ListAttackMenu.SetActive(false);
         targetMenu.SetActive(false);
 
     }
 
     public void Escape() {
+
+        TerminalManager.instance.ShowInTerminal("BattleManager.Escape()");
 
         PlayerMenu.SetActive(false);
 
@@ -394,6 +597,8 @@ public class BattleManager : MonoBehaviour {
 
     public IEnumerator FailMessage() {
 
+        TerminalManager.instance.ShowInTerminal("BattleManager.FailMessage()");
+
         NextTurn();
         UpdateBattle();
         PlayerMenu.SetActive(false);
@@ -408,6 +613,8 @@ public class BattleManager : MonoBehaviour {
 
     public void Inspect() {
 
+        TerminalManager.instance.ShowInTerminal("BattleManager.Inspect()");
+
         showStatus = true;
         NextTurn();
         UpdateBattle();
@@ -415,6 +622,8 @@ public class BattleManager : MonoBehaviour {
     }
 
     public void OpenPlayerTargetMenu(UseItem item) {
+
+        TerminalManager.instance.ShowInTerminal("BattleManager.OpenPlayerTargetMenu(" + item + ")");
 
         playerTargetMenu.SetActive(true);
 
@@ -429,11 +638,11 @@ public class BattleManager : MonoBehaviour {
             playerTargets[i].item = item;
             playerTargets[i].target = Players[i];
             playerTargets[i].targetName.text = GameManager.instance.playerStats[i].charName;
-            bool ac = true;
-            if((item.hp > 0 && GameManager.instance.playerStats[i].currentHP == GameManager.instance.playerStats[i].maxHP)) {
+
+            if ((item.hp > 0 && GameManager.instance.playerStats[i].currentHP == GameManager.instance.playerStats[i].maxHP)) {
                 playerTargets[i].GetComponent<Button>().interactable = false;
             }
-            if((item.ene > 0 && GameManager.instance.playerStats[i].currentEne == GameManager.instance.playerStats[i].maxEne)) {
+            if ((item.ene > 0 && GameManager.instance.playerStats[i].currentEne == GameManager.instance.playerStats[i].maxEne)) {
                 playerTargets[i].GetComponent<Button>().interactable = false;
             }
 
@@ -442,11 +651,15 @@ public class BattleManager : MonoBehaviour {
     }
     public void ClosePlayerTargetMenu() {
 
+        TerminalManager.instance.ShowInTerminal("BattleManager.ClosePlayerTargetMenu()");
+
         playerTargetMenu.SetActive(false);
 
     }
 
     public void OpenItemMenu() {
+
+        TerminalManager.instance.ShowInTerminal("BattleManager.OpenItemMenu()");
 
         itemMenu.SetActive(true);
         itemList.ShowMoves();
@@ -456,15 +669,20 @@ public class BattleManager : MonoBehaviour {
 
     public void CloseItemMenu() {
 
+        TerminalManager.instance.ShowInTerminal("BattleManager.CloseItemMenu()");
+
         itemMenu.SetActive(false);
         targetMenu.SetActive(false);
 
     }
 
     public IEnumerator PlayerUseItem(UseItem item, int selectTarget) {
+
+        TerminalManager.instance.ShowInTerminal("BattleManager.PlayerUseItem(" + item + ", " + selectTarget + ")");
+
         PlayerMenu.SetActive(false);
 
-        CharacterStats charToUse = GameManager.instance.playerStats[selectTarget];
+        PlayerStats charToUse = GameManager.instance.playerStats[selectTarget];
 
         if (item.hp + charToUse.currentHP >= charToUse.maxHP) {
             charToUse.currentHP = charToUse.maxHP;

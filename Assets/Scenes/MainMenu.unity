@@ -775,7 +775,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f67e32a6653089b49bfee7a059d95c21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  newGameScene: Grass-2
+  newGameScene: Grass-1
   continueButton: {fileID: 390314625}
   loadGameScene: LoadScene
 --- !u!1 &1946793322

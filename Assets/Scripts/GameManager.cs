@@ -7,7 +7,7 @@ public class GameManager : MonoBehaviour {
 
     public static GameManager instance;
 
-    public CharacterStats[] playerStats;
+    public PlayerStats[] playerStats;
 
     public bool gameMenuOpen;
     public bool dialogActive;
@@ -26,6 +26,7 @@ public class GameManager : MonoBehaviour {
     public List<EquipItem> playerEquipItems = new List<EquipItem>();
 
     public int money;
+    public bool canMove = true;
 
     void Start() {
 
@@ -40,10 +41,12 @@ public class GameManager : MonoBehaviour {
     void Update() {
         
         if(gameMenuOpen || dialogActive || fadingBetweenAreas  || battleActive) {
-            PlayerController.instance.canMove = false;
+            canMove = false;
         } else {
-            PlayerController.instance.canMove = true;
+            canMove = true;
         }
+
+        PlayerController.instance.canMove = canMove;
 
         if (Input.GetKeyDown(KeyCode.B)) {
             SaveGame();
