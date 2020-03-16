@@ -57,6 +57,17 @@ public class GameManager : MonoBehaviour {
 
     }
 
+    public void DestroyAllnGoToMainMenu() {
+
+        UIFade.instance.FadeToBlack();
+        Destroy(BattleManager.instace.gameObject);
+        Destroy(PlayerController.instance.gameObject);
+        Destroy(UIFade.instance.gameObject);
+        SceneManager.LoadScene("MainMenu");
+        Destroy(gameObject);
+
+    }
+
     private void LoadItems() {
 
         TerminalManager.instance.ShowInTerminal("GameManager.LoadItems()");

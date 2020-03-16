@@ -7,6 +7,7 @@ public class Entrance : MonoBehaviour {
     public string transitionName;
 
     void Start() {
+
         if(transitionName == PlayerController.instance.areaTransitionName) {
             PlayerController.instance.transform.position = transform.position;
         }
@@ -19,7 +20,4 @@ public class Entrance : MonoBehaviour {
 
     }
    
-    void Update() {
-        
-    }
 }

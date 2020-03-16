@@ -73,7 +73,7 @@ public class PlayerController : MonoBehaviour {
 
     public void SetBounds(Vector3 botLeft, Vector3 topRight) {
 
-        TerminalManager.instance.ShowInTerminal("PlayerController.SetBounds(("+ botLeft.x +", "+ botLeft.y + ", " + botLeft.z +") ("+ topRight.x + ", " + topRight.y + ", " + topRight.z + "))");
+        TerminalManager.instance.ShowInTerminal("PlayerController.SetBounds((" + botLeft.x + ", " + botLeft.y + ", " + botLeft.z + ") (" + topRight.x + ", " + topRight.y + ", " + topRight.z + "))");
 
         bottomLeftLimit = botLeft + new Vector3(0.5f, 0.5f, 0f);
         topRightLimit = topRight + new Vector3(-0.5f, -0.5f, 0f);

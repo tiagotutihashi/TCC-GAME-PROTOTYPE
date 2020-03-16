@@ -6,6 +6,7 @@ using UnityEngine.Tilemaps;
 public class CameraController : MonoBehaviour {
 
     public Transform target;
+    public static CameraController instance;
 
     public Tilemap map;
     private Vector3 bottomLeftLimit;
@@ -16,10 +17,13 @@ public class CameraController : MonoBehaviour {
 
     void Start() {
 
-        TerminalManager.instance.ShowInTerminalObject("CameraControler - CameraControler");
+        instance = this;
+
+        //TerminalManager.instance.ShowInTerminalObject("CameraControler - CameraControler");
 
         //target = PlayerController.instance.transform;
         target = FindObjectOfType<PlayerController>().transform;
+        map = FindObjectOfType<Grid>().gameObject.transform.Find("Ground").GetComponent<Tilemap>();
 
         halfHeight = Camera.main.orthographicSize;
         halfWidth = halfHeight * Camera.main.aspect;

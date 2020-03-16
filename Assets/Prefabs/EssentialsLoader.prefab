@@ -47,3 +47,7 @@ MonoBehaviour:
     type: 3}
   player: {fileID: 2103610525185921494, guid: b445d26fd304b2d4cba8e206ef86a429, type: 3}
   gameMan: {fileID: 9100032371741615024, guid: f703d67ab9d88fc408a42869134f2e07, type: 3}
+  battleMan: {fileID: 2456926003228298201, guid: 31a2757faf6134749808c53b19f2c3e0,
+    type: 3}
+  playerCamera: {fileID: 3419518658993501930, guid: e54ad897d53b0a449a491e2923fdc022,
+    type: 3}

@@ -300,6 +300,7 @@ public class BattleManager : MonoBehaviour {
         showOnce = false;
         TerminalManager.instance.ShowInTerminal("BattleManager.WinBattle()");
 
+        nameEnemy = "";
         PlayerMenu.SetActive(false);
         UIFade.instance.FadeToBlack();
         yield return new WaitForSeconds(1f);
@@ -409,16 +410,17 @@ public class BattleManager : MonoBehaviour {
 
         TerminalManager.instance.ShowInTerminal("BattleManager.GoToMainMenu()");
 
-        UIFade.instance.FadeFromBlack();
+        UIFade.instance.FadeToBlack();
         yield return new WaitForSeconds(.1f);
-        SceneManager.LoadScene("MainMenu");
+        /*SceneManager.LoadScene("MainMenu");
         Destroy(GameManager.instance.gameObject);
         Destroy(PlayerController.instance.gameObject);
         Destroy(gameObject);
         Destroy(UIFade.instance.gameObject);
         battleScene.SetActive(false);
         GameManager.instance.battleActive = false;
-        battleActive = false;
+        battleActive = false;*/
+        GameManager.instance.DestroyAllnGoToMainMenu();
 
     }
 

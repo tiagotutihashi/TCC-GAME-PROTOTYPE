@@ -27,6 +27,14 @@ public class GameMenu : MonoBehaviour {
 
     public ScrollRect[] itensWin;
 
+    public GameObject configMenu;
+    public GameObject oppPanel;
+    public GameObject confNopp;
+    public Button saveButton;
+    public GameObject configButtons;
+    private bool configMenuOpen = false;
+    private bool menuOpen = false;
+
     void Start() {
         
     }
@@ -88,6 +96,8 @@ public class GameMenu : MonoBehaviour {
         }
 
         menu.SetActive(false);
+        menuOpen = false;
+        configButtons.SetActive(true);
 
         GameManager.instance.gameMenuOpen = false;
 
@@ -95,15 +105,15 @@ public class GameMenu : MonoBehaviour {
 
     public void OpenMenu() {
 
-        TerminalManager.instance.ShowInTerminal("GameMenu.OpenMenu()");
-
-        windows[0].SetActive(true);
-
-        menu.SetActive(true);
-
-        GameManager.instance.gameMenuOpen = true;
-
-        ToggleWindow(0);
+        if (!configMenuOpen) {
+            TerminalManager.instance.ShowInTerminal("GameMenu.OpenMenu()");
+            windows[0].SetActive(true);
+            menu.SetActive(true);
+            menuOpen = true;
+            configButtons.SetActive(false);
+            GameManager.instance.gameMenuOpen = true;
+            ToggleWindow(0);
+        }
 
     }
 
@@ -197,6 +207,59 @@ public class GameMenu : MonoBehaviour {
             }
 
         }
+
+    }
+
+    public void OpenConfMenu() {
+
+        if (!menuOpen) {
+            TerminalManager.instance.ShowInTerminal("MenuManager.OpenConfigMenu()");
+            GameManager.instance.gameMenuOpen = true;
+            oppPanel.SetActive(false);
+            confNopp.SetActive(true);
+            configMenu.SetActive(true);
+            if (GameManager.instance.canMove) {
+                saveButton.interactable = true;
+            } else {
+                saveButton.interactable = false;
+            }
+            configMenuOpen = true;
+        }
+
+    }
+
+    public void CloseConfMenu() {
+
+        TerminalManager.instance.ShowInTerminal("MenuManager.CloseConfigMenu()");
+        GameManager.instance.gameMenuOpen = false;
+        oppPanel.SetActive(false);
+        confNopp.SetActive(false);
+        configMenu.SetActive(false);
+        configMenuOpen = false;
+
+    }
+
+    public void OpenOPPList() {
+
+        if (!menuOpen) {
+            TerminalManager.instance.ShowInTerminal("MenuManager.OpenOPPList()");
+            GameManager.instance.gameMenuOpen = true;
+            confNopp.SetActive(true);
+            configMenu.SetActive(false);
+            oppPanel.SetActive(true);
+            configMenuOpen = true;
+        }
+
+    }
+
+    public void CloseOPPList() {
+
+        TerminalManager.instance.ShowInTerminal("MenuManager.CloseOPPList()");
+        GameManager.instance.gameMenuOpen = false;
+        oppPanel.SetActive(false);
+        confNopp.SetActive(false);
+        configMenu.SetActive(false);
+        configMenuOpen = false;
 
     }
 
