@@ -18,16 +18,24 @@ public class TerminalManager : MonoBehaviour {
 
     }
 
-    public void ShowInTerminalObject(string newObj) {
+    public void ShowInTerminalObject( string newObj ) {
 
         obj.text = obj.text.Insert(0, newObj + "\n");
 
     }
 
-    public void ShowInTerminal(string newLine) {
+    public void ShowInTerminal( string newLine ) {
 
         line.text = line.text.Insert(0, newLine + "\n");
-        
+
+    }
+
+    public void EraserObject() {
+
+        string constants = "BattleManager - BattleMaanger\nGameManager - GameManager\nTerminalManager - TerminalManager\nUIcanvas - UICanvas\nPlayerController - PlayerController\n";
+        obj.text = constants;
+        line.text = "";
+
     }
 
 }

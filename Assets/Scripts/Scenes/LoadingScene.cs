@@ -6,19 +6,21 @@ using UnityEngine.SceneManagement;
 public class LoadingScene : MonoBehaviour {
 
     public float waitToLoad;
-
-    void Start() {
-        
-    }
+    public string firstLevel;
 
     void Update() {
         
         if(waitToLoad > 0) {
             waitToLoad -= Time.deltaTime;
             if(waitToLoad <= 0) {
-                SceneManager.LoadScene(PlayerPrefs.GetString("Current_Scene"));
-
-                GameManager.instance.LoadGame();
+                if (PlayerPrefs.HasKey("Current_Scene"))
+                {
+                    SceneManager.LoadScene(PlayerPrefs.GetString("Current_Scene"));
+                    GameManager.instance.LoadGame();
+                } else
+                {
+                    SceneManager.LoadScene(firstLevel);
+                }
             }
         }
 

@@ -73,11 +73,6 @@ public class BattleManager : MonoBehaviour {
 
     void Update() {
 
-        if (Input.GetKeyDown(KeyCode.P)) {
-            //BattleStart(new string[] { "Snake", "Two Legs" });
-            UpdateStatus();
-        }
-
         if (battleActive) {
             if (loseTheBattle) {
                 if(showOnce)
@@ -156,6 +151,8 @@ public class BattleManager : MonoBehaviour {
 
         TerminalManager.instance.ShowInTerminal("BattleManager.BattleStart([" + enemeisToBattle[0] + ", " + enemeisToBattle[1] + "])");
 
+        GameMenu.instance.configButtons.SetActive(false);
+        
         this.nameEnemy = nameEnemy;
 
         endPanel.SetActive(false);
@@ -212,6 +209,7 @@ public class BattleManager : MonoBehaviour {
 
             turnWaiting = true;
             currentTurn = 0;
+            UpdateStatus();
 
         }
 
@@ -356,6 +354,7 @@ public class BattleManager : MonoBehaviour {
         battleScene.SetActive(false);
         playerLevelUpText[0].text = "";
         playerLevelUpText[1].text = "";
+        GameMenu.instance.configButtons.SetActive(true);
 
     }
 

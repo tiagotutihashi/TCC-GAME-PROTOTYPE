@@ -5,6 +5,7 @@ using UnityEngine;
 public class Entrance : MonoBehaviour {
 
     public string transitionName;
+    public string areaToLoad;
 
     void Start() {
 
@@ -16,6 +17,7 @@ public class Entrance : MonoBehaviour {
 
         GameManager.instance.fadingBetweenAreas = false;
 
+        TerminalManager.instance.ShowInTerminalObject(areaToLoad + " - Exit");
         TerminalManager.instance.ShowInTerminalObject(transitionName + " - Entrance");
 
     }

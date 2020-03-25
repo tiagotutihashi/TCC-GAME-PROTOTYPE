@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class GameMenu : MonoBehaviour {
 
+    public static GameMenu instance;
+
     public GameObject menu;
     public GameObject[] windows;
     public Button[] btnOpen, btnClose;
@@ -36,12 +38,14 @@ public class GameMenu : MonoBehaviour {
     private bool menuOpen = false;
 
     void Start() {
-        
+
+        instance = this;
+
     }
 
     void Update() {
 
-        if (Input.GetButtonDown("Fire2")) {
+        if (Input.GetKeyDown(KeyCode.Tab)) {
             if (menu.activeInHierarchy) {
                 CloseMenu();
             } else {

@@ -28,6 +28,10 @@ public class GameManager : MonoBehaviour {
     public int money;
     public bool canMove = true;
 
+    public string[] oopConcepts;
+    public List<string> learnedConcepts;
+
+
     void Start() {
 
         instance = this;
@@ -39,7 +43,11 @@ public class GameManager : MonoBehaviour {
     }
     
     void Update() {
-        
+
+        if(Input.GetKeyDown(KeyCode.L)) {
+            SaveConcepts("Classe");
+        }
+
         if(gameMenuOpen || dialogActive || fadingBetweenAreas  || battleActive) {
             canMove = false;
         } else {
@@ -221,6 +229,25 @@ public class GameManager : MonoBehaviour {
         }
 
         money = PlayerPrefs.GetInt("Player_Money");
+        LoadConcepts();
+
+    }
+
+    public void LoadConcepts() {
+
+        for(int i = 0; i < oopConcepts.Length; i++) {
+
+            if(PlayerPrefs.HasKey("OOP_Concept_"+oopConcepts[i]))
+            learnedConcepts.Add(PlayerPrefs.GetString("OOP_Concept_" + oopConcepts[i]));
+
+        }
+
+    }
+
+    public void SaveConcepts(string concept) {
+
+        PlayerPrefs.SetString("OOP_Concept_" + concept, concept);
+        learnedConcepts.Add(concept);
 
     }
 

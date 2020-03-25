@@ -14,9 +14,9 @@ public class Exit : MonoBehaviour {
     private bool shouldLoadAfterFade;
 
     void Start() {
-        theEnt.transitionName = areaTransitionName;
 
-        //TerminalManager.instance.ShowInTerminalObject(areaToLoad + " - Exit");
+        theEnt.transitionName = areaTransitionName;
+        theEnt.areaToLoad = areaToLoad;
 
     }
 
@@ -27,6 +27,7 @@ public class Exit : MonoBehaviour {
             if(waitToLoad <= 0){
                 TerminalManager.instance.ShowInTerminal("Exit.LoadNextScene(" + areaToLoad + ")");
                 shouldLoadAfterFade = false;
+                TerminalManager.instance.EraserObject();
                 SceneManager.LoadScene(areaToLoad);
             }
         }
